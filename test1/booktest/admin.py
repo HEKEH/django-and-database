@@ -1,0 +1,31 @@
+from django.contrib import admin
+
+# Register your models here.
+from .models import *
+
+# class HeroInfoInline(admin.StackedInline):
+#     model = HeroInfo
+#     extra = 2
+
+class HeroInfoInline(admin.TabularInline):
+    model = HeroInfo
+    extra = 2
+
+class BookInfoAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'btitle','bpub_date']  #list_display = ['id', 'btitle','bpub_date']
+    list_filter = ['btitle']
+    search_fields = ['btitle']
+    list_per_page = 1
+    #fields = ['btitle','bpub_date']
+    fieldsets = [
+        ('base', {'fields':['btitle']}),
+        ('super', {'fields':['bpub_date']})
+    ]
+    inlines = [HeroInfoInline]
+
+class HeroInfoAdmin(admin.ModelAdmin):
+    list_display = ['pk', 'bname','gender']
+
+
+admin.site.register(BookInfo, BookInfoAdmin)
+admin.site.register(HeroInfo, HeroInfoAdmin)
