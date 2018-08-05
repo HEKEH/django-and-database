@@ -5,8 +5,13 @@
     <title>index</title>
 </head>
 <body>
+<ul>
 {%for book in list%}
-<li>{{book.btitle}}</li>
+<li>{{book.btitle}}--{{book.bread}}--{{book.bcomment}}</li>
 {%endfor%}
+    <!--<li>{{list}}</li>-->
+</ul>
+<hr>
+{{Max1}}
 </body>
 </html>
