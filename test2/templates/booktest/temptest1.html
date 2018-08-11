@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <a href="{% url 'booktest:index' %}">index</a>
+    <hr>
+{% for hero in list %}
+    {% if forloop.counter|divisibleby:"2" %}
+    <li style="color:red">{{hero.showname}}</li>
+    {%else%}
+    <li style="color:blue">{{hero.showname}}</li>
+    {%endif%}
+{% endfor %}
+</ul>
+</form>
+</body>
+</html>

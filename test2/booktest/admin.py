@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from .models import *
 
-class HeroInfoInline(admin.TabularInline):
+class HeroInfoInline(admin.StackedInline):
     model = HeroInfo
     extra = 2
 
@@ -17,7 +17,7 @@ class BookInfoAdmin(admin.ModelAdmin):
     #     ('base', {'fields':['btitle']}),
     #     ('super', {'fields':['bpub_time']})
     # ]
-    inline = [HeroInfoInline]
+    inlines = [HeroInfoInline]
 
 class HeroInfoAdmin(admin.ModelAdmin):
     list_display = ['pk', 'hname', 'gender', 'hbooktitle', 'hcontent']
@@ -26,3 +26,5 @@ class HeroInfoAdmin(admin.ModelAdmin):
 
 admin.site.register(BookInfo, BookInfoAdmin)
 admin.site.register(HeroInfo, HeroInfoAdmin)
+admin.site.register(UserInfo)
+admin.site.register(tinymceTest1)

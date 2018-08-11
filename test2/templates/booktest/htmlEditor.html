@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src='/static/tinymce/js/tinymce/tinymce.min.js'></script>
+    <script type="text/javascript">
+        tinyMCE.init({
+            'mode':'textareas',
+            'theme':'modern',//inlite/mobile/modern三选项
+            'width':400,
+            'height':100
+        });
+    </script>
+</head>
+<body>
+<form method="post" action="/booktest/htmlEditorHander">
+    {% csrf_token %}
+    <input type="text" name="hname">
+    <br>
+    <textarea name='hcontent'>哈哈，这是啥呀</textarea>
+    <br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

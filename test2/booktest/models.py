@@ -1,4 +1,5 @@
 from django.db import models
+from tinymce import HTMLField
 
 # Create your models here.
 
@@ -43,7 +44,7 @@ class HeroInfo(models.Model):
     hname = models.CharField(max_length = 20)
     hgender = models.BooleanField(default = True)
     hcontent = models.CharField('武功', max_length = 200)
-    isDelete = models.BooleanField(default = 0)
+    isDelete = models.BooleanField(default = False)
     hbook = models.ForeignKey('BookInfo',on_delete=models.CASCADE)
     def gender(self):
         if self.hgender:
@@ -54,7 +55,22 @@ class HeroInfo(models.Model):
     def hbooktitle(self):
         return self.hbook.btitle
 
+    def showname(self):
+        return self.hname
+
     gender.short_description = '性别'
     hbooktitle.short_description = '书名'
     #hcontent.short_description = '武功'
 
+
+class UserInfo(models.Model):
+    uname = models.CharField(max_length=10)
+    upwd = models.CharField(max_length=40)
+    isDelete = models.BooleanField(default = 0)
+
+class AreaInfo(models.Model):
+    title = models.CharField(max_length=20)
+    parea = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
+
+class tinymceTest1(models.Model):
+    content = HTMLField('Content')
