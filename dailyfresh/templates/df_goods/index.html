@@ -1,0 +1,105 @@
+{% extends 'df_goods/base_goods.html' %}
+{% block head %}
+	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
+{% endblock head %}
+
+{% block content %}
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+			<ul class="navlist fl">
+				<li><a href="">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+			{% for gtype in typelist %}
+			<li><a href="#model0{{gtype.id}}" class="gtype{{gtype.id}}">{{gtype}}</a></li>
+			{% endfor %}
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+				<li><img src="/static/images/slide.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide02.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide03.jpg" alt="幻灯片"></li>
+				<li><img src="/static/images/slide04.jpg" alt="幻灯片"></li>
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+			<a href="#"><img src="/static/images/adv01.jpg"></a>
+			<a href="#"><img src="/static/images/adv02.jpg"></a>
+		</div>
+	</div>
+
+	{% for gtype in typelist %}
+	{% with key=forloop.counter %}
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model0{{key}}">{{gtype.ttitle}}</h3>
+			<div class="subtitle fl">
+				<span>|</span>
+				{% for t in type_hot %}
+				{% if key == forloop.counter %}
+				{% for goods in t %}
+				<a href="/goods/detail/{{ goods.id }}">{{ goods.gtitle|slice:'10' }}...</a>
+				{% endfor %}
+				{% endif %}
+				{% endfor %}
+			</div>
+			<a href="/goods/list{{key}}_1_1" class="goods_more fr" id="gtype{{gtype.id}}_more">查看更多 ></a>
+		</div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><a href="/goods/list{{key}}_1_1"><img src="/static/images/banner0{{key}}.jpg"></a></div>
+			<ul class="goods_list fl">
+				<!-- with t=type_new[key] -->
+				<!--<script>console.log({{key}})</script>-->
+				{% for t in type_new %}
+					{% if key == forloop.counter %}
+					{% for goods in t %}
+					<li>
+						<h4><a href="/goods/detail/{{ goods.id }}">{{goods.gtitle|slice:'10' }}...</a></h4>
+						<a href="/goods/detail/{{ goods.id }}"><img src="/{{goods.gpic}}"></a>
+						<div class="prize">¥ {{goods.gprice}}</div>
+					</li>
+					{% endfor %}
+					{% endif %}
+				{% endfor %}
+				<!-- endwith -->
+			</ul>
+		</div>
+	</div>
+	{% endwith %}
+	{% endfor %}
+{% endblock content %}
+
+{% block tail %}
+	<script type="text/javascript" src="/static/js/slideshow.js"></script>
+	<script type="text/javascript">
+		BCSlideshow('focuspic');
+		var oFruit = document.getElementById('fruit_more');
+		var oShownum = document.getElementById('show_count');
+
+		var hasorder = localStorage.getItem('order_finish');
+
+		if(hasorder)
+		{
+			oShownum.innerHTML = '2';
+		}
+
+		oFruit.onclick = function(){
+			window.location.href = 'list.html';
+		}
+	</script>
+{% endblock tail %}

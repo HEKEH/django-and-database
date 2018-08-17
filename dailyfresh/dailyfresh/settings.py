@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'df_user',
+    'df_goods',
+    'df_cart',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +129,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+TINYMCE_DEFAULT_CONFIG = {#此项可以不设定
+    'width': 600,
+    'height': 200,
+}
