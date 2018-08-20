@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'df_user',
     'df_goods',
     'df_cart',
+    'df_order',
     'tinymce',
 ]
 
@@ -85,6 +86,7 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306',
+        'ATOMIC_REQUESTS': True,
     }
 }
 

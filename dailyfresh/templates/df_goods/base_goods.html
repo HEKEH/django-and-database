@@ -1,4 +1,29 @@
 {% extends 'base.html' %}
+{% block head %}
+<script>
+	<!--修改购物车数量-->
+	$(function() {
+		change_goods_count('/cart');
+	})
+	function change_goods_count(url) {
+		$.get(url,function(dic){
+			$('.goods_count').text(dic['count']);
+		});
+
+		<!--let r = new XMLHttpRequest();-->
+		<!--r.open('GET', url, true);-->
+		<!--r.responseType = 'json';-->
+		<!--r.onreadystatechange = dic => {-->
+			<!--if (r.readyState === 4) {-->
+				<!--$('.goods_count').text(dic['count']);-->
+			<!--}-->
+		<!--}-->
+		<!--r.send();-->
+	}
+
+</script>
+{% block user_head %}{% endblock user_head %}
+{% endblock head %}
 {% block search_bar %}
 	<div class="search_bar clearfix">
 		<a href="/goods/index/" class="logo fl"><img src="/static/images/logo.png"></a>

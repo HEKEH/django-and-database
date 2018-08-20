@@ -8,6 +8,8 @@ from . import user_decorator
 import sys
 sys.path.append('../')
 from df_goods.models import *
+from df_order.models import *
+from django.core.paginator import Paginator, Page
 
 # Create your views here.
 def register(request):
@@ -90,12 +92,14 @@ def logout(request):
 def info(request):
     user_email = UserInfo.objects.get(id=request.session['user_id']).uemail
     gids = request.COOKIES.get('goodsids')
-    gids_lst = gids.split(',')
-    if '' in gids_lst:
-        gids_lst.remove('')
     recent_click_glist = []
-    for gid in gids_lst:
-        recent_click_glist.append(GoodsInfo.objects.get(id=int(gid)))
+    if(gids):
+        gids_lst = gids.split(',')
+        if '' in gids_lst:
+            gids_lst.remove('')
+        recent_click_glist = []
+        for gid in gids_lst:
+            recent_click_glist.append(GoodsInfo.objects.get(id=int(gid)))
     context = {
         'title': '用户中心',
         'user_email': user_email,
@@ -106,8 +110,14 @@ def info(request):
     return render(request, 'df_user/user_center_info.html', context)
 
 @user_decorator.login
-def order(request):
-    context = {'title': '用户中心'}
+def order(request, pindex):
+    user_id=request.session['user_id']
+    orders = OrderInfo.objects.filter(user_id=user_id).order_by('-oid')
+    paginator = Paginator(orders, 2)
+    page = paginator.page(int(pindex))
+    context = {'title': '用户中心',
+               'page': page,
+               'paginator': paginator,}
     return render(request, 'df_user/user_center_order.html', context)
 
 @user_decorator.login

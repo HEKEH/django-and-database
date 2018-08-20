@@ -1,29 +1,48 @@
 {% extends 'df_goods/base_goods.html' %}
-{% block head %}
+{% block user_head %}
 <script>
 	function add() {
-		num = parseFloat($('.num_show').val());
+		var num = parseFloat($('.num_show').val());
 		$('.num_show').val(num + 1);
 		$('.num_show').blur();
 	}
 	function minus() {
-		num = parseFloat($('.num_show').val());
+		var num = parseFloat($('.num_show').val());
 		if(num <= 1) {return}
 		$('.num_show').val(num - 1);
 		$('.num_show').blur();
 	}
 	$(function() {
 		$('.num_show').blur(function() {
-			num = parseInt($('.num_show').val());
-			if(num < 1) {num = 1}
-			price = parseFloat($('#gprice').text());
-			total = num * price;
-			$('.num_show').val(num)
+			var num = parseInt($('.num_show').val());
+			if(num < 1) {num = 1};
+			var price = parseFloat($('#gprice').text());
+			var total = num * price;
+			$('.num_show').val(num);
 			$('#gtotal').text(total.toFixed(2)+'元');
 		});
 	})
+	<!--点击加入购物车时，改变数据库并返回数据-->
+	function add_cart() {
+		var num = parseFloat($('.num_show').val());
+		var gid = {{goods.id}};
+		change_goods_count('/cart/add_'+gid+'_'+num);
+	}
+
+	function goto_website(url){
+		window.location.href = url;
+	}
+
+	function create_order() {
+		add_cart();
+		var url = '/order/?g_id=' + {{goods.id}};
+		setTimeout(function(){
+			goto_website(url);
+		},1000)
+	}
+
 </script>
-{% endblock head %}
+{% endblock user_head %}
 {% block content %}
 	<div class="navbar_con">
 		<div class="navbar clearfix">
@@ -37,7 +56,7 @@
 				</ul>
 			</div>
 			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
+				<li><a href="/goods/index/">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
 				<li class="interval">|</li>
@@ -74,9 +93,10 @@
 			</div>
 			<div class="total">总价：<em id="gtotal">{{goods.gprice}}元</em></div>
 			<div class="operate_btn">
-				<a href="javascript:;" class="buy_btn">立即购买</a>
-				<a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>				
+				<a href="javascript:create_order();" class="buy_btn">立即购买</a>
+				<a href="javascript:add_cart();" class="add_cart" id="add_cart">加入购物车</a>
 			</div>
+			<div class="add_jump"></div>
 		</div>
 	</div>
 
@@ -116,26 +136,24 @@
 
 {% block tail %}
 
-	<!--<script type="text/javascript" src="js/jquery-1.12.2.js"></script>-->
-	<!--<script type="text/javascript">-->
-		<!--var $add_x = $('#add_cart').offset().top;-->
-		<!--var $add_y = $('#add_cart').offset().left;-->
+	<script type="text/javascript">
+		$('#add_cart').click(function(){
+			var $add_x = $('#add_cart').offset().top;
+			var $add_y = $('#add_cart').offset().left;
 
-		<!--var $to_x = $('#show_count').offset().top;-->
-		<!--var $to_y = $('#show_count').offset().left;-->
+			var $to_x = $('#show_count').offset().top;
+			var $to_y = $('#show_count').offset().left;
 
-		<!--$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})-->
-		<!--$('#add_cart').click(function(){-->
-			<!--$(".add_jump").stop().animate({-->
-				<!--'left': $to_y+7,-->
-				<!--'top': $to_x+7},-->
-				<!--"fast", function() {-->
-					<!--$(".add_jump").fadeOut('fast',function(){-->
-						<!--$('#show_count').html(2);-->
-					<!--});-->
+			$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
 
-			<!--});-->
-		<!--})-->
-	<!--</script>-->
+			$(".add_jump").stop().animate({
+				'left': $to_y+7,
+				'top': $to_x+7},
+				"fast", function() {
+					$(".add_jump").fadeOut('fast',function(){
+					});
+			});
+		})
+	</script>
 {% endblock tail %}
 	
