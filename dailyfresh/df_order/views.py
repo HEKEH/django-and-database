@@ -87,3 +87,15 @@ def order_handle(request):
     # finally:
     #     transaction.savepoint_commit(tran_id)
     return JsonResponse({'status': 1})
+
+
+@user_decorator.login
+def pay(request, oid):
+    order = OrderInfo.objects.get(oid=oid)
+
+    order.oIsPay = True
+    order.save()
+    context = {
+        'oid': oid,
+    }
+    return render(request, 'df_order/pay.html', context)
